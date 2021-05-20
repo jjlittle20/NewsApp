@@ -1,26 +1,32 @@
 import "./App.css";
 import React, { useState } from "react";
 import Header from "./components/Header";
-import { SearchResults } from "./components/SearchResults";
+import SearchResults from "./components/SearchResults";
 
 function App() {
   const [query, setQuery] = useState("");
-  const [news, setNews] = useState("");
-  var url = `https://newsapi.org/v2/everything?q=${query}&apiKey=a676d4bc01294e67a91b2270b6be8ee4`;
-  var articleNumber = 0;
-  var req = new Request(url);
-  const search = (evt) => {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentpage, setCurrentpage] = useState(1);
+  const [postsperpage, setPostsPerPage] = useState(10);
+
+  const searching = (evt) => {
     if (evt.key === "Enter") {
-      fetch(req)
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result);
-          setNews(result);
-        });
-      setQuery("");
+      newsFetch();
     }
   };
 
+  async function newsFetch() {
+    setLoading(true);
+    let url = `https://newsapi.org/v2/everything?q=${query}&apiKey=a676d4bc01294e67a91b2270b6be8ee4`;
+    let req = new Request(url);
+    const response = await fetch(req);
+    const result = await response.json();
+    console.log(result);
+    setNews(result);
+    setQuery("");
+    setLoading(false);
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -34,20 +40,29 @@ function App() {
             placeholder="search"
             onChange={(e) => setQuery(e.target.value)}
             value={query}
-            onKeyPress={search}
+            onKeyDown={searching}
           />
         </div>
-
-        <SearchResults news={news} articleNumber={articleNumber} />
-        <SearchResults news={news} articleNumber={articleNumber + 1} />
-        <SearchResults news={news} articleNumber={articleNumber + 2} />
-        <SearchResults news={news} articleNumber={articleNumber + 3} />
-        <SearchResults news={news} articleNumber={articleNumber + 4} />
+        {/* {typeof news.status != "undefined" ? (
+          <ul>
+            {news.articles.map((item) => (
+              <li key={item.publishedAt}>
+                <h2>{item.title}</h2>
+                <p>{item.content}</p>
+                <p>{item.author}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="search-blank">
+            <h2>{news.totalResults}No Results</h2>
+          </div>
+        )} */}
+        <SearchResults news={news} loading={loading} />
       </main>
     </div>
   );
 }
-
 export default App;
 
 // search to return results up 10 per page
