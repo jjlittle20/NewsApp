@@ -1,4 +1,5 @@
 import React from "react";
+<<<<<<< Updated upstream
 
 export const SearchResults = ({ news, articleNumber }) => {
   return (
@@ -32,6 +33,56 @@ export const SearchResults = ({ news, articleNumber }) => {
       );
     </div>
   );
+=======
+import Pagination from "./Pagination";
+import "./Component.css";
+const SearchResults = ({
+  news,
+  loading,
+  currentpage,
+  postsperpage,
+  setCurrentpage,
+}) => {
+  if (loading) {
+    console.log(news);
+    return <h2>loading</h2>;
+  }
+  console.log(news.articles);
+  var newsArray = [];
+  newsArray = news.articles;
+
+  if (news.status === "ok") {
+    //get current news search from query
+    const indexOfLastArticle = currentpage * postsperpage;
+    const indexOfFirstArticle = indexOfLastArticle - postsperpage;
+    const currentArticles = newsArray.slice(
+      indexOfFirstArticle,
+      indexOfLastArticle
+    );
+    //change page of search results
+    const paginate = (pageNumber) => setCurrentpage(pageNumber);
+
+    console.log(currentArticles);
+    console.log(newsArray.length);
+    return (
+      <div>
+        {currentArticles.map((item) => (
+          <div key={item.publishedAt}>
+            <h2>{item.title}</h2>
+            <p>{item.content}</p>
+            <p>{item.author}</p>
+            <img className="urlimg" src={item.urlToImage} alt="" />
+          </div>
+        ))}
+        <Pagination
+          postsperpage={postsperpage}
+          totalPosts={newsArray.length}
+          paginate={paginate}
+        />
+      </div>
+    );
+  } else return <div></div>;
+>>>>>>> Stashed changes
 };
 
 export default SearchResults;
