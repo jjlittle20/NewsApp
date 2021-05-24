@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
+import Carousel from "react-material-ui-carousel";
+import { Paper, Button } from "@material-ui/core";
 
 const TopHeadlines = () => {
   const [articles, setarticles] = useState([]);
@@ -11,18 +13,20 @@ const TopHeadlines = () => {
       setarticles(res.data.articles);
     };
     getArticles();
-  });
+  }, []);
   return (
     <div>
       <div>
-        {articles.map((item) => (
-          <div key={item.publishedAt}>
-            <h2>{item.title}</h2>
-            <p>{item.content}</p>
-            <p>{item.author}</p>
-            <img className="urlimg" src={item.urlToImage} alt="" />
-          </div>
-        ))}
+        <Carousel>
+          {articles.slice(0, 5).map((item) => (
+            <div key={item.publishedAt}>
+              <h2>{item.title}</h2>
+              <p>{item.content}</p>
+              <p>{item.author}</p>
+              <img className="urlimg" src={item.urlToImage} alt="" />
+            </div>
+          ))}
+        </Carousel>
       </div>
     </div>
   );
