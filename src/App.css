@@ -1,25 +1,3 @@
-.wrapper {
-  display: grid;
-  grid-template-areas: "article-one article-two";
-  width: 100vw;
-}
-.article-one {
-  background-color: bisque;
-  width: 50%;
-  display: grid;
-  grid-template-areas: "article-one-title article-one-title",
-    "article-one-author-source article-one-author-source",
-    "article-one-content article-one-img", "read-link .";
-}
-.article-one-content {
-  overflow: hidden;
-}
-.search-bar-area {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-}
-main {
-  display: grid;
+.title {
+  font-family: "Cinzel Decorative" !important;
 }
