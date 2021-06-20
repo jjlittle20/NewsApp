@@ -1,9 +1,5 @@
 import "./App.css";
 import React, { useState } from "react";
-<<<<<<< Updated upstream
-import Header from "./components/Header";
-import { SearchResults } from "./components/SearchResults";
-=======
 import SearchResults from "./components/SearchResults";
 import Weather from "./components/Weather";
 import TopHeadlines from "./components/TopHeadlines";
@@ -80,42 +76,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
->>>>>>> Stashed changes
 
 function App() {
   const [query, setQuery] = useState("");
-  const [news, setNews] = useState("");
-  var url = `https://newsapi.org/v2/everything?q=${query}&apiKey=a676d4bc01294e67a91b2270b6be8ee4`;
-  var articleNumber = 0;
-  var req = new Request(url);
-  const search = (evt) => {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentpage, setCurrentpage] = useState(1);
+  const [postsperpage] = useState(5);
+
+  const searching = (evt) => {
     if (evt.key === "Enter") {
-      fetch(req)
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result);
-          setNews(result);
-        });
-      setQuery("");
+      newsFetch();
     }
   };
 
-<<<<<<< Updated upstream
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Header />
-      </header>
-      <main>
-        <div className="search-bar-area">
-          <input
-            type="text"
-            className="search-bar"
-            placeholder="search"
-            onChange={(e) => setQuery(e.target.value)}
-            value={query}
-            onKeyPress={search}
-=======
   async function newsFetch() {
     setLoading(true);
     var url = `https://newsapi.org/v2/everything?q=${query}&apiKey=a676d4bc01294e67a91b2270b6be8ee4`;
@@ -173,7 +147,6 @@ function App() {
             currentpage={currentpage}
             postsperpage={postsperpage}
             setCurrentpage={setCurrentpage}
->>>>>>> Stashed changes
           />
 
           <Grid container spacing={3}>
@@ -202,15 +175,6 @@ function App() {
           <br></br>
         </div>
 
-<<<<<<< Updated upstream
-        <SearchResults news={news} articleNumber={articleNumber} />
-        <SearchResults news={news} articleNumber={articleNumber + 1} />
-        <SearchResults news={news} articleNumber={articleNumber + 2} />
-        <SearchResults news={news} articleNumber={articleNumber + 3} />
-        <SearchResults news={news} articleNumber={articleNumber + 4} />
-      </main>
-    </div>
-=======
         <BusinessSection />
         <br></br>
         <br></br>
@@ -220,7 +184,6 @@ function App() {
         <FinanceSection />
       </Container>
     </body>
->>>>>>> Stashed changes
   );
 }
 
